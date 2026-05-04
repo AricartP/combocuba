@@ -3,62 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComboCuba Express | Pedidos</title>
+    <title>ComboCuba Express | Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .combo-card.selected { border-color: #ef4444; background-color: #fef2f2; transform: scale(1.02); }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .combo-option {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .combo-option.selected {
+            background: #b91c1c;
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(185, 28, 28, 0.4);
+        }
+
+        .combo-option.selected i { color: #facc15; }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:active { transform: scale(0.96); }
+
+        /* Animación suave para la carga */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeIn 0.5s ease-out forwards; }
     </style>
 </head>
-<body class="bg-gray-100 pb-32">
+<body class="pb-32">
 
-    <nav class="bg-red-700 p-4 text-white shadow-lg sticky top-0 z-50 flex justify-between items-center">
-        <h1 class="text-xl font-black italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
-        <span id="order-id" class="text-[10px] font-mono bg-red-900 px-2 py-1 rounded"></span>
-    </nav>
+    <!-- Header Estilo App -->
+    <header class="bg-red-700 text-white p-6 rounded-b-[2.5rem] shadow-2xl animate-fade">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-800 tracking-tighter italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
+                <p class="text-[10px] uppercase tracking-[0.2em] font-bold opacity-80">Envíos rápidos a la familia</p>
+            </div>
+            <div class="text-right">
+                <span id="order-id" class="block text-[10px] font-bold bg-black/20 px-3 py-1 rounded-full border border-white/20 text-yellow-300"></span>
+            </div>
+        </div>
+    </header>
 
-    <div class="container mx-auto px-4 py-6 max-w-xl">
+    <main class="container mx-auto px-5 py-8 max-w-xl space-y-8">
         
-        <h2 class="font-black text-gray-700 mb-4 uppercase text-sm italic">Paso 1: Elige tu Combo</h2>
-        <div class="grid grid-cols-1 gap-3 mb-8">
-            <div id="btn-CARNE" onclick="selectCombo('COMBO CARNE', 'btn-CARNE')" class="combo-card bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent cursor-pointer transition-all flex justify-between items-center">
-                <span class="font-bold">🍖 COMBO CARNE</span>
-                <i class="fas fa-check-circle text-gray-200"></i>
+        <!-- Sección 1: Selección -->
+        <section class="animate-fade" style="animation-delay: 0.1s;">
+            <div class="flex items-center space-x-2 mb-4">
+                <div class="w-2 h-6 bg-red-600 rounded-full"></div>
+                <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Elige tu Combo Especial</h2>
             </div>
-            <div id="btn-ASEO" onclick="selectCombo('COMBO ASEO', 'btn-ASEO')" class="combo-card bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent cursor-pointer transition-all flex justify-between items-center">
-                <span class="font-bold">🧼 COMBO ASEO</span>
-                <i class="fas fa-check-circle text-gray-200"></i>
-            </div>
-            <div id="btn-MIXTO" onclick="selectCombo('COMBO MIXTO', 'btn-MIXTO')" class="combo-card bg-white p-4 rounded-2xl shadow-sm border-2 border-transparent cursor-pointer transition-all flex justify-between items-center">
-                <span class="font-bold">✨ COMBO MIXTO</span>
-                <i class="fas fa-check-circle text-gray-200"></i>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl shadow-xl space-y-4">
-            <h2 class="font-black text-gray-700 mb-2 uppercase text-sm italic">Paso 2: Datos de Entrega</h2>
-            <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-500">
-            <textarea id="direccion" placeholder="Dirección Exacta en Cuba" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-500" rows="2"></textarea>
-            <input type="tel" id="telefono" placeholder="Teléfono de contacto" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-500">
             
-            <label class="block text-[10px] font-bold text-gray-400 uppercase ml-1">Método de Pago</label>
-            <select id="pago" class="w-full p-4 border rounded-xl bg-gray-50 font-bold">
-                <option value="IBAN EUROPA">IBAN EUROPA</option>
-                <option value="ZELLE USA">ZELLE USA</option>
-                <option value="BANK TRANSFER MEXICO">BANK TRANSFER MEXICO</option>
-                <option value="CRIPTOMONEDA">CRIPTOMONEDA</option>
-            </select>
-        </div>
-    </div>
+            <div class="grid grid-cols-1 gap-4">
+                <div id="btn-CARNE" onclick="selectCombo('COMBO CARNE', 'btn-CARNE')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-red-600">
+                    <div>
+                        <p class="text-xs font-bold text-red-600 uppercase mb-1">Proteína Vital</p>
+                        <h3 class="font-800 text-lg uppercase">🍖 COMBO CARNE</h3>
+                    </div>
+                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
+                </div>
 
-    <!-- Botón Flotante -->
-    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t z-50">
-        <button onclick="finalizarPedido()" class="max-w-xl mx-auto bg-green-600 text-white w-full py-5 rounded-2xl font-black shadow-lg flex items-center justify-center text-lg active:scale-95 transition-transform">
-            <i class="fab fa-whatsapp mr-3 text-2xl"></i> CONFIRMAR PEDIDO
-        </button>
-    </div>
+                <div id="btn-ASEO" onclick="selectCombo('COMBO ASEO', 'btn-ASEO')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-blue-500">
+                    <div>
+                        <p class="text-xs font-bold text-blue-500 uppercase mb-1">Hogar y Limpieza</p>
+                        <h3 class="font-800 text-lg uppercase">🧼 COMBO ASEO</h3>
+                    </div>
+                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
+                </div>
+
+                <div id="btn-MIXTO" onclick="selectCombo('COMBO MIXTO', 'btn-MIXTO')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-purple-600">
+                    <div>
+                        <p class="text-xs font-bold text-purple-600 uppercase mb-1">Lo mejor de ambos</p>
+                        <h3 class="font-800 text-lg uppercase">✨ COMBO MIXTO</h3>
+                    </div>
+                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Datos -->
+        <section class="glass-card p-8 rounded-[2rem] shadow-xl animate-fade" style="animation-delay: 0.2s;">
+            <div class="flex items-center space-x-2 mb-6">
+                <div class="w-2 h-6 bg-green-600 rounded-full"></div>
+                <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Datos de Entrega</h2>
+            </div>
+
+            <div class="space-y-5">
+                <div class="relative group">
+                    <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
+                    <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700">
+                </div>
+
+                <div class="relative group">
+                    <i class="fas fa-location-dot absolute left-4 top-5 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
+                    <textarea id="direccion" placeholder="Dirección exacta en Cuba" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700" rows="3"></textarea>
+                </div>
+
+                <div class="relative group">
+                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
+                    <input type="tel" id="telefono" placeholder="Teléfono de contacto" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700">
+                </div>
+                
+                <div class="pt-2">
+                    <label class="text-[10px] font-800 text-gray-400 uppercase ml-2 mb-2 block tracking-widest">Método de Pago Preferido</label>
+                    <div class="relative">
+                        <select id="pago" class="w-full p-4 bg-gray-100 border-none rounded-2xl font-bold text-gray-700 appearance-none outline-none focus:ring-2 focus:ring-red-500 cursor-pointer">
+                            <option value="IBAN EUROPA">🇪🇺 IBAN EUROPA</option>
+                            <option value="ZELLE USA">🇺🇸 ZELLE USA</option>
+                            <option value="BANK TRANSFER MEXICO">🇲🇽 BANK TRANSFER MEXICO</option>
+                            <option value="CRIPTOMONEDA">₿ CRIPTOMONEDA</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Botón de Confirmación -->
+    <footer class="fixed bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-lg border-t border-gray-100 z-50">
+        <div class="max-w-xl mx-auto">
+            <button onclick="finalizarPedido()" class="btn-glow bg-green-600 hover:bg-green-700 text-white w-full py-5 rounded-[1.5rem] font-800 text-lg flex items-center justify-center space-x-3 transition-all">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <span>CONFIRMAR Y ENVIAR PEDIDO</span>
+            </button>
+            <p class="text-[9px] text-center text-gray-400 mt-4 font-bold uppercase tracking-widest italic">Seguridad y rapidez garantizada en cada envío</p>
+        </div>
+    </footer>
 
     <script>
+        // LÓGICA INTACTA (No se toca lo que ya funciona)
         const miTelefono = "17864512020";
         const formID = "1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg";
         
@@ -73,17 +165,17 @@
 
         let selectedCombo = "";
         const orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('order-id').innerText = orderID;
+        document.getElementById('order-id').innerText = "ORDEN #" + orderID;
 
         function selectCombo(nombre, id) {
             selectedCombo = nombre;
-            document.querySelectorAll('.combo-card').forEach(c => {
+            document.querySelectorAll('.combo-option').forEach(c => {
                 c.classList.remove('selected');
-                c.querySelector('i').classList.replace('text-red-500', 'text-gray-200');
+                c.querySelector('i').className = "fas fa-circle-check text-2xl text-gray-200";
             });
             const active = document.getElementById(id);
             active.classList.add('selected');
-            active.querySelector('i').classList.replace('text-gray-200', 'text-red-500');
+            active.querySelector('i').className = "fas fa-circle-check text-2xl text-yellow-400";
         }
 
         function finalizarPedido() {
@@ -93,11 +185,10 @@
             const pag = document.getElementById('pago').value;
 
             if (!selectedCombo || !nom || !dir || !tel) {
-                alert("⚠️ Completa todos los campos antes de enviar.");
+                alert("⚠️ Por favor, rellena todos los campos.");
                 return;
             }
 
-            // Construcción de URL de envío directo (POST simulado)
             const sendURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?` +
                             `${entries.idOrden}=${encodeURIComponent(orderID)}&` +
                             `${entries.combo}=${encodeURIComponent(selectedCombo)}&` +
@@ -106,16 +197,18 @@
                             `${entries.telefono}=${encodeURIComponent(tel)}&` +
                             `${entries.pago}=${encodeURIComponent(pag)}&submit=Submit`;
 
-            // Ejecutar envío en segundo plano e ir a WhatsApp
-            const msg = `*NUEVO PEDIDO: ${orderID}*\n\n` +
-                        `📦 *Combo:* ${selectedCombo}\n` +
-                        `👤 *Cliente:* ${nom}\n` +
-                        `📍 *Dirección:* ${dir}\n` +
-                        `📞 *Tel:* ${tel}\n` +
-                        `💳 *Pago:* ${pag}`;
+            const msg = `*NUEVO PEDIDO: ${orderID}*\n` +
+                        `----------------------------\n` +
+                        `📦 *PRODUCTO:* ${selectedCombo}\n` +
+                        `💳 *PAGO:* ${pag}\n` +
+                        `----------------------------\n` +
+                        `👤 *RECIBE:* ${nom}\n` +
+                        `📍 *DIRECCIÓN:* ${dir}\n` +
+                        `📞 *TEL:* ${tel}\n` +
+                        `----------------------------\n` +
+                        `_Generado automáticamente por ComboCuba Express_`;
 
-            // Abrimos el link de Google en una pestaña pequeña/oculta o simplemente redirigimos
-            // Para asegurar que llegue al Excel, usamos un fetch "no-cors"
+            // Ejecución del envío silencioso
             fetch(sendURL, { mode: 'no-cors' });
 
             setTimeout(() => {
