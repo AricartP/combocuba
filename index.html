@@ -92,7 +92,7 @@
     document.getElementById('order-id-display').innerText = orderID;
 
     // 3. Configurar WhatsApp
-    const miTelefono = "TU_NUMERO_AQUI"; 
+    const miTelefono = "17864512020"; 
     const textoWA = encodeURIComponent(`Hola ComboCuba Express. Mi ID de Orden es ${orderID}. Solicito datos de pago.`);
     document.getElementById('whatsapp-btn').href = `https://wa.me/${miTelefono}?text=${textoWA}`;
 
