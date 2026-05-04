@@ -59,14 +59,14 @@
         document.getElementById('order-id-display').innerText = orderID;
 
         // 3. Configurar WhatsApp
-        const miTelefono = "TU_NUMERO_WHATSAPP_AQUI"; // Ejemplo: 5215512345678
+        const miTelefono = +17864512020; // Ejemplo: 5215512345678
         const textoWA = encodeURIComponent(`Hola ComboCuba Express. Mi ID es ${orderID}. Quiero los datos para pagar mi combo.`);
         document.getElementById('whatsapp-btn').href = `https://wa.me/${miTelefono}?text=${textoWA}`;
 
         // 4. Cargar Formulario con ID automático
         // REEMPLAZA LOS DATOS DE ABAJO:
-        const formBaseURL = "https://docs.google.com/forms/d/e/TU_ID_DE_FORMULARIO/viewform";
-        const entryID = "entry.TU_NUMERO_DE_ENTRY"; // El número que anotaste en el Paso 1
+        const formBaseURL = "https://docs.google.com/forms/d/e/1FAIpQLSfWnGnUuxmhzk6JoLbTOopwRg6asDqwOqQxly5bMLk5lnDliw/viewform";
+        const entryID = "entry.1105049443"; // El número que anotaste en el Paso 1
         
         const fullFormURL = `${formBaseURL}?embedded=true&${entryID}=${orderID}`;
         
