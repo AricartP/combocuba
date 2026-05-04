@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComboCuba Express | Gestión Directa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Header con ID visible -->
+    <nav class="bg-red-700 p-4 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold italic tracking-tighter text-white">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
+            <div class="bg-red-800 px-3 py-1 rounded border border-red-500">
+                <p class="text-[9px] uppercase leading-none text-red-200">ID DE TU ORDEN</p>
+                <p id="order-id-display" class="font-mono text-yellow-300 font-bold text-sm"></p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Aviso de Zonas -->
+    <div class="bg-black text-white p-2 text-center text-[10px] font-bold uppercase tracking-widest">
+        📍 Entregas: Contramaestre • Baire • Jiguaní
+    </div>
+
+    <section class="container mx-auto px-4 py-6">
+        <!-- Botón de WhatsApp -->
+        <div class="text-center mb-8">
+            <a id="whatsapp-btn" href="#" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all active:scale-95">
+                <i class="fab fa-whatsapp mr-2 text-xl"></i> Pedir Cuentas de Pago
+            </a>
+            <p class="text-[10px] text-gray-500 mt-2">Haz clic aquí para recibir datos de Zelle, IBAN o México vía WhatsApp.</p>
+        </div>
+
+        <!-- Formulario (CRM) -->
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
+            <div class="bg-gray-800 py-2 px-4 flex justify-between items-center">
+                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+                <p class="text-white text-[11px] font-bold uppercase">Formulario Oficial de Envío</p>
+                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+            </div>
+            
+            <div id="form-container">
+                <!-- El formulario se carga mediante JavaScript abajo -->
+                <p class="text-center py-10 text-gray-400">Generando orden segura...</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. Generar ID Único
+        const timestamp = Date.now().toString().slice(-5);
+        const randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        const orderID = `CC-${randomChar}${timestamp}`;
+
+        // 2. Mostrar ID en el Header
+        document.getElementById('order-id-display').innerText = orderID;
+
+        // 3. Configurar WhatsApp
+        const miTelefono = "TU_NUMERO_WHATSAPP_AQUI"; // Ejemplo: 5215512345678
+        const textoWA = encodeURIComponent(`Hola ComboCuba Express. Mi ID es ${orderID}. Quiero los datos para pagar mi combo.`);
+        document.getElementById('whatsapp-btn').href = `https://wa.me/${miTelefono}?text=${textoWA}`;
+
+        // 4. Cargar Formulario con ID automático
+        // REEMPLAZA LOS DATOS DE ABAJO:
+        const formBaseURL = "https://docs.google.com/forms/d/e/TU_ID_DE_FORMULARIO/viewform";
+        const entryID = "entry.TU_NUMERO_DE_ENTRY"; // El número que anotaste en el Paso 1
+        
+        const fullFormURL = `${formBaseURL}?embedded=true&${entryID}=${orderID}`;
+        
+        document.getElementById('form-container').innerHTML = `
+            <iframe 
+                src="${fullFormURL}" 
+                width="100%" 
+                height="1000" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0">Cargando...</iframe>
+        `;
+    </script>
+
+</body>
+</html>
