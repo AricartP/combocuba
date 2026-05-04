@@ -3,60 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComboCuba Express | Final</title>
+    <title>DEPURACIÓN FINAL | ComboCuba</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 pb-28">
+<body class="bg-gray-100 pb-20">
 
-    <!-- Navbar -->
-    <nav class="bg-red-700 p-4 text-white shadow-lg sticky top-0 z-50 flex justify-between items-center">
-        <h1 class="text-xl font-black italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
-        <div id="order-id" class="bg-red-900 px-3 py-1 rounded text-xs font-mono text-yellow-300 border border-red-400"></div>
+    <nav class="bg-red-600 p-4 text-white shadow-lg text-center">
+        <h1 class="text-xl font-black">PRUEBA DE CONEXIÓN DIRECTA</h1>
     </nav>
 
-    <!-- 1. Selección de Combo -->
-    <section class="container mx-auto px-4 py-6">
-        <h2 class="text-center font-bold text-gray-700 mb-4 uppercase italic">1. Selecciona tu Combo</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div id="c-carne" onclick="seleccionarCombo('COMBO CARNE', 'c-carne')" class="bg-white p-4 rounded-2xl shadow border-2 border-transparent cursor-pointer hover:border-red-500 transition text-center font-black">🍖 COMBO CARNE</div>
-            <div id="c-aseo" onclick="seleccionarCombo('COMBO ASEO', 'c-aseo')" class="bg-white p-4 rounded-2xl shadow border-2 border-transparent cursor-pointer hover:border-blue-500 transition text-center font-black">🧼 COMBO ASEO</div>
-            <div id="c-mixto" onclick="seleccionarCombo('COMBO MIXTO', 'c-mixto')" class="bg-white p-4 rounded-2xl shadow border-2 border-transparent cursor-pointer hover:border-purple-500 transition text-center font-black">✨ COMBO MIXTO</div>
-        </div>
-    </section>
+    <div class="container mx-auto px-4 py-6 max-w-xl">
+        <!-- Interfaz Superior -->
+        <div class="bg-white p-6 rounded-2xl shadow-xl mb-6">
+            <div class="space-y-4">
+                <select id="combo_select" class="w-full p-4 border rounded-xl bg-gray-50 font-bold">
+                    <option value="">-- ELIGE COMBO --</option>
+                    <option value="COMBO CARNE">COMBO CARNE</option>
+                    <option value="COMBO ASEO">COMBO ASEO</option>
+                    <option value="COMBO MIXTO">COMBO MIXTO</option>
+                </select>
 
-    <!-- 2. Datos -->
-    <section class="container mx-auto px-4">
-        <div class="max-w-xl mx-auto bg-white p-6 rounded-3xl shadow-xl space-y-4">
-            <h2 class="text-center font-bold text-gray-700 uppercase italic">2. Datos de Entrega</h2>
-            <input type="text" id="nombre" placeholder="Nombre y Apellidos de quien recibe" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-400">
-            <textarea id="direccion" placeholder="Dirección Exacta (Calle, No, entre calles...)" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-400" rows="2"></textarea>
-            <input type="tel" id="telefono" placeholder="Teléfono" class="w-full p-4 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-red-400">
-            
-            <label class="block text-[10px] font-bold text-gray-400 uppercase ml-2">Método de Pago:</label>
-            <select id="pago" class="w-full p-4 border rounded-xl bg-gray-50 font-bold">
-                <option value="IBAN EUROPA">IBAN EUROPA</option>
-                <option value="ZELLE USA">ZELLE USA</option>
-                <option value="BANK TRANSFER MEXICO">BANK TRANSFER MEXICO</option>
-                <option value="CRIPTOMONEDA">CRIPTOMONEDA</option>
-            </select>
-        </div>
-    </section>
+                <input type="text" id="nombre" placeholder="Nombre Destinatario" class="w-full p-4 border rounded-xl bg-gray-50">
+                <textarea id="direccion" placeholder="Dirección" class="w-full p-4 border rounded-xl bg-gray-50"></textarea>
+                <input type="tel" id="telefono" placeholder="Teléfono" class="w-full p-4 border rounded-xl bg-gray-50">
+                
+                <select id="pago" class="w-full p-4 border rounded-xl bg-gray-50 font-bold">
+                    <option value="IBAN EUROPA">IBAN EUROPA</option>
+                    <option value="ZELLE USA">ZELLE USA</option>
+                    <option value="BANK TRANSFER MEXICO">BANK TRANSFER MEXICO</option>
+                    <option value="CRIPTOMONEDA">CRIPTOMONEDA</option>
+                </select>
 
-    <!-- BOTÓN DE ACCIÓN -->
-    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t z-50">
-        <button onclick="enviarTodo()" class="max-w-xl mx-auto bg-green-600 text-white w-full py-5 rounded-2xl font-black shadow-2xl flex items-center justify-center text-lg active:scale-95 transition-all">
-            <i class="fab fa-whatsapp mr-3 text-3xl"></i> COMPLETAR PEDIDO
-        </button>
+                <button onclick="sincronizarYWhatsApp()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg">
+                    1. PRE-RELLENAR Y WHATSAPP
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulario de Google (VISIBLE) -->
+        <div class="bg-white p-2 rounded-2xl shadow-inner border-4 border-dashed border-gray-300">
+            <p class="text-[10px] text-center font-bold text-gray-500 mb-2 italic underline">
+                Paso 2: Si los datos aparecen abajo, dale al BOTÓN AZUL del propio Google para asegurar el Excel.
+            </p>
+            <div id="contenedor-iframe">
+                <iframe id="google_frame" src="https://docs.google.com/forms/d/e/1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg/viewform?embedded=true" width="100%" height="600" frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
 
-    <!-- EL SECRETO: Iframe oculto para el envío automático -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { }"></iframe>
-
     <script>
-        let submitted = false;
-        const miTelefono = "17864512020";
-        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg/formResponse";
+        const formBaseURL = "https://docs.google.com/forms/d/e/1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg/viewform";
         
         const entries = {
             idOrden: "entry.905253419",
@@ -67,68 +64,33 @@
             pago: "entry.895797247"
         };
 
-        let selectedCombo = "";
-        const orderID = `CC-${Math.floor(1000 + Math.random() * 9000)}`;
-        document.getElementById('order-id').innerText = `ID: ${orderID}`;
+        const testOrderID = "CC-" + Math.floor(Math.random() * 9999);
 
-        function seleccionarCombo(nombre, id) {
-            selectedCombo = nombre;
-            document.querySelectorAll('[id^="c-"]').forEach(c => c.classList.remove('border-red-600', 'bg-red-50'));
-            document.getElementById(id).classList.add('border-red-600', 'bg-red-50');
-        }
+        function sincronizarYWhatsApp() {
+            const comb = encodeURIComponent(document.getElementById('combo_select').value);
+            const nom = encodeURIComponent(document.getElementById('nombre').value);
+            const dir = encodeURIComponent(document.getElementById('direccion').value);
+            const tel = encodeURIComponent(document.getElementById('telefono').value);
+            const pag = encodeURIComponent(document.getElementById('pago').value);
 
-        function enviarTodo() {
-            const nom = document.getElementById('nombre').value;
-            const dir = document.getElementById('direccion').value;
-            const tel = document.getElementById('telefono').value;
-            const pag = document.getElementById('pago').value;
+            if (!nom || !comb) { alert("Completa los datos"); return; }
 
-            if (!selectedCombo || !nom || !dir || !tel) {
-                alert("Por favor completa todos los campos.");
-                return;
-            }
+            // Actualizar el Iframe con los datos
+            const urlFinal = `${formBaseURL}?embedded=true` +
+                             `&${entries.idOrden}=${testOrderID}` +
+                             `&${entries.combo}=${comb}` +
+                             `&${entries.nombre}=${nom}` +
+                             `&${entries.direccion}=${dir}` +
+                             `&${entries.telefono}=${tel}` +
+                             `&${entries.pago}=${pag}`;
 
-            // --- PASO 1: ENVÍO AL EXCEL (Invisible) ---
-            const form = document.createElement("form");
-            form.action = formURL;
-            form.method = "POST";
-            form.target = "hidden_iframe"; // Envía al iframe oculto
+            document.getElementById('google_frame').src = urlFinal;
 
-            const datos = {
-                [entries.idOrden]: orderID,
-                [entries.combo]: selectedCombo,
-                [entries.nombre]: nom,
-                [entries.direccion]: dir,
-                [entries.telefono]: tel,
-                [entries.pago]: pag
-            };
-
-            for (let key in datos) {
-                let input = document.createElement("input");
-                input.type = "hidden";
-                input.name = key;
-                input.value = datos[key];
-                form.appendChild(input);
-            }
-
-            document.body.appendChild(form);
-            submitted = true;
-            form.submit(); // SE ENVÍA AL EXCEL AQUÍ
-
-            // --- PASO 2: ABRIR WHATSAPP ---
-            const msg = `*NUEVO PEDIDO - COMBOCUBA*\n\n` +
-                        `*ID:* ${orderID}\n` +
-                        `*Producto:* ${selectedCombo}\n` +
-                        `*Pago:* ${pag}\n\n` +
-                        `*DATOS DE ENTREGA:*\n` +
-                        `*Recibe:* ${nom}\n` +
-                        `*Teléfono:* ${tel}\n` +
-                        `*Dirección:* ${dir}\n\n` +
-                        `_El pedido ha sido registrado en sistema._`;
-
+            // Abrir WhatsApp después de un breve delay
+            const msg = `Pedido: ${document.getElementById('combo_select').value} para ${document.getElementById('nombre').value}`;
             setTimeout(() => {
-                window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
-            }, 400);
+                window.open(`https://wa.me/17864512020?text=${encodeURIComponent(msg)}`, '_blank');
+            }, 800);
         }
     </script>
 </body>
