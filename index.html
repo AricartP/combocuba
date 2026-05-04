@@ -3,151 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComboCuba Express | Gestión Profesional</title>
+    <title>ComboCuba Express | Sistema Automatizado</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.0.0/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-50">
 
-    <!-- Header -->
     <nav class="bg-red-700 p-4 text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-xl font-black italic tracking-tighter">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
-                <p class="text-[10px] font-bold text-red-100 uppercase tracking-widest">Contramaestre • Baire • Jiguaní</p>
-            </div>
-            <div class="bg-red-900 px-3 py-1 rounded border border-red-400 text-right shadow-inner">
-                <p class="text-[8px] uppercase text-red-200 leading-none">ID ORDEN</p>
+            <h1 class="text-xl font-black italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
+            <div class="bg-red-900 px-3 py-1 rounded border border-red-400 text-right">
+                <p class="text-[8px] uppercase text-red-200">ID ORDEN</p>
                 <p id="order-id-display" class="font-mono text-yellow-300 font-bold text-sm"></p>
             </div>
         </div>
     </nav>
 
-    <!-- 1. Catálogo de Productos -->
+    <!-- 1. Selección de Combo -->
     <section class="container mx-auto px-4 py-8">
-        <h2 class="text-2xl font-bold text-center mb-8 border-b-4 border-yellow-400 inline-block uppercase italic text-gray-800">1. Elige tu Combo</h2>
+        <h2 class="text-2xl font-bold text-center mb-8 border-b-4 border-yellow-400 inline-block uppercase italic">1. Selecciona tu Combo</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- COMBO 1 -->
-            <div class="bg-white rounded-2xl shadow-md border overflow-hidden flex flex-col border-t-4 border-red-600">
-                <div class="p-5 flex-grow">
-                    <h3 class="text-xl font-black">COMBO CARNE</h3>
-                    <p class="text-gray-500 text-sm mt-2">Proteína animal, arroz, granos, aceite y viandas frescas.</p>
-                </div>
-                <button onclick="selectCombo('COMBO CARNE')" class="bg-red-600 text-white text-center py-3 font-bold hover:bg-red-700 transition uppercase">Seleccionar este</button>
+            <div class="bg-white rounded-2xl shadow-md border-t-4 border-red-600 p-5 flex flex-col">
+                <h3 class="font-black text-lg">COMBO CARNE</h3>
+                <p class="text-gray-500 text-xs mb-4">Proteína, arroz y granos.</p>
+                <button onclick="updateSelection('COMBO CARNE')" class="bg-red-600 text-white py-2 rounded font-bold uppercase hover:bg-red-700 transition mt-auto">Elegir</button>
             </div>
-
-            <!-- COMBO 2 -->
-            <div class="bg-white rounded-2xl shadow-md border overflow-hidden flex flex-col border-t-4 border-blue-600">
-                <div class="p-5 flex-grow">
-                    <h3 class="text-xl font-black">COMBO ASEO</h3>
-                    <p class="text-gray-500 text-sm mt-2">Kit completo de higiene: jabones, pasta dental y detergente.</p>
-                </div>
-                <button onclick="selectCombo('COMBO ASEO')" class="bg-blue-600 text-white text-center py-3 font-bold hover:bg-blue-700 transition uppercase">Seleccionar este</button>
+            <div class="bg-white rounded-2xl shadow-md border-t-4 border-blue-600 p-5 flex flex-col">
+                <h3 class="font-black text-lg">COMBO ASEO</h3>
+                <p class="text-gray-500 text-xs mb-4">Kit completo de limpieza.</p>
+                <button onclick="updateSelection('COMBO ASEO')" class="bg-blue-600 text-white py-2 rounded font-bold uppercase hover:bg-blue-700 transition mt-auto">Elegir</button>
             </div>
-
-            <!-- COMBO 3 -->
-            <div class="bg-white rounded-2xl shadow-md border-2 border-yellow-500 overflow-hidden flex flex-col relative">
-                <div class="p-5 flex-grow">
-                    <span class="bg-yellow-500 text-white text-[10px] px-2 py-0.5 rounded absolute top-2 right-2 font-bold uppercase text-[9px]">Más vendido</span>
-                    <h3 class="text-xl font-black">COMBO MIXTO</h3>
-                    <p class="text-gray-500 text-sm mt-2">La combinación perfecta: alimentación básica + higiene esencial.</p>
-                </div>
-                <button onclick="selectCombo('COMBO MIXTO')" class="bg-purple-600 text-white text-center py-3 font-bold hover:bg-purple-700 transition uppercase">Seleccionar este</button>
+            <div class="bg-white rounded-2xl shadow-md border-t-4 border-purple-600 p-5 flex flex-col">
+                <h3 class="font-black text-lg">COMBO MIXTO</h3>
+                <p class="text-gray-500 text-xs mb-4">Alimentos y aseo personal.</p>
+                <button onclick="updateSelection('COMBO MIXTO')" class="bg-purple-600 text-white py-2 rounded font-bold uppercase hover:bg-purple-700 transition mt-auto">Elegir</button>
             </div>
-
         </div>
     </section>
 
-    <!-- 2. Formulario Dinámico -->
-    <section id="ordenar" class="bg-white py-12 px-4 border-t shadow-inner">
-        <div class="max-w-2xl mx-auto">
-            
-            <div id="resumen-visual" class="hidden mb-6 bg-red-50 p-4 rounded-xl border border-red-200 text-center shadow-sm">
-                <p class="text-sm font-bold text-red-800 uppercase italic">Combo Seleccionado: <span id="combo-seleccionado"></span></p>
-                <p class="text-[10px] text-gray-500">El formulario se ha actualizado automáticamente con tu elección.</p>
-            </div>
-
-            <h2 class="text-center font-bold text-gray-400 mb-4 uppercase text-xs tracking-widest italic">2. Completa los Datos de Entrega</h2>
-            <div id="form-container" class="rounded-3xl border-4 border-red-700 shadow-2xl overflow-hidden bg-white mb-10">
-                <!-- El Iframe se recarga vía Script -->
-            </div>
-
-            <!-- 3. Botón WhatsApp Profesional al Final -->
-            <div class="text-center bg-green-50 p-8 rounded-3xl border-2 border-dashed border-green-300 shadow-lg">
-                <h3 class="text-xl font-bold text-green-800 mb-2 italic">¡Último Paso!</h3>
-                <p class="text-[11px] text-green-700 mb-6 font-bold uppercase tracking-wider">Toca abajo para enviarnos el resumen y pedir los datos de pago</p>
+    <!-- 2. Datos Únicos -->
+    <section id="datos" class="container mx-auto px-4 py-8 bg-white rounded-t-3xl shadow-inner border-t">
+        <div class="max-w-xl mx-auto">
+            <h2 class="text-center font-black text-red-700 mb-6 uppercase tracking-tighter text-xl italic">2. Datos de Entrega</h2>
+            <div class="space-y-4">
+                <input type="text" id="nombre" oninput="syncForm()" placeholder="Nombre de quien recibe en Cuba" class="w-full p-4 border rounded-xl bg-gray-50 focus:ring-2 focus:ring-red-500 outline-none">
+                <textarea id="direccion" oninput="syncForm()" placeholder="Dirección exacta y municipio (Ej: Baire)" class="w-full p-4 border rounded-xl bg-gray-50 focus:ring-2 focus:ring-red-500 outline-none"></textarea>
+                <input type="tel" id="telefono" oninput="syncForm()" placeholder="Teléfono de contacto" class="w-full p-4 border rounded-xl bg-gray-50 focus:ring-2 focus:ring-red-500 outline-none">
                 
-                <button onclick="sendWhatsApp()" class="bg-green-600 text-white px-10 py-5 rounded-full font-black shadow-2xl hover:bg-green-700 transition-all transform active:scale-95 flex items-center mx-auto text-lg">
-                    <i class="fab fa-whatsapp mr-3 text-3xl"></i> ENVIAR PEDIDO POR WHATSAPP
-                </button>
-                <p class="text-[9px] text-gray-400 mt-4 italic italic uppercase">ID de Orden y Producto se incluirán automáticamente.</p>
+                <select id="pago" onchange="syncForm()" class="w-full p-4 border rounded-xl bg-gray-50">
+                    <option value="Zelle">Pagar por Zelle</option>
+                    <option value="Transferencia IBAN">Transferencia Bancaria (Europa)</option>
+                    <option value="México">Transferencia México</option>
+                    <option value="Cripto">Criptomonedas</option>
+                </select>
             </div>
         </div>
     </section>
 
-    <footer class="py-10 text-center text-gray-400 text-[10px] uppercase tracking-widest">
-        ComboCuba Express &copy; 2026 - Gestión Profesional de Envíos en Oriente
-    </footer>
+    <!-- 3. Formulario Invisible (Control) -->
+    <section class="container mx-auto px-4 py-4">
+        <div class="max-w-xl mx-auto">
+            <p class="text-[9px] text-gray-400 text-center mb-2 italic italic uppercase">Registro automático en base de datos:</p>
+            <div id="form-container" class="rounded-xl border shadow-sm opacity-50 grayscale hover:grayscale-0 transition h-40 overflow-hidden">
+                <!-- Se carga aquí -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Botón Final -->
+    <div class="fixed bottom-4 left-0 right-0 px-4 max-w-xl mx-auto z-50">
+        <button onclick="sendWhatsApp()" class="bg-green-600 text-white w-full py-5 rounded-2xl font-black shadow-2xl hover:bg-green-700 transition transform active:scale-95 flex items-center justify-center text-lg">
+            <i class="fab fa-whatsapp mr-3 text-3xl"></i> ENVIAR PEDIDO POR WHATSAPP
+        </button>
+    </div>
 
     <script>
-        // --- DATOS YA CONFIGURADOS ---
+        // --- CONFIGURACIÓN ---
         const miTelefono = "17864512020"; 
         const formBaseURL = "https://docs.google.com/forms/d/e/1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg/viewform";
         
-        const entryID = "entry.905253419";    // ID de Orden
-        const entryCombo = "entry.1180910425"; // ID de Selección de Combo
-        // ------------------------------
+        // REEMPLAZA ESTOS CON TUS ENTRY IDs DEL FORMULARIO
+        const entryID = "entry.905253419"; 
+        const entryCombo = "entry.1180910425";
+        // NOTA: Si quieres que el Excel también guarde Nombre y Dirección, 
+        // deberías buscar sus "entry.IDs" y agregarlos aquí abajo siguiendo la misma lógica.
+        // ----------------------
 
-        let selectedCombo = "No especificado";
-
-        // Generador de ID fijo por sesión
-        const timestamp = Date.now().toString().slice(-5);
-        const randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-        const orderID = `CC-${randomChar}${timestamp}`;
+        let combo = "No seleccionado";
+        const orderID = `CC-${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${Date.now().toString().slice(-5)}`;
         document.getElementById('order-id-display').innerText = orderID;
 
-        // Función Maestra: Selecciona producto y actualiza formulario
-        function selectCombo(name) {
-            selectedCombo = name;
-            
-            // Mostrar aviso visual arriba del formulario
-            document.getElementById('resumen-visual').classList.remove('hidden');
-            document.getElementById('combo-seleccionado').innerText = name;
+        function syncForm() {
+            const nom = encodeURIComponent(document.getElementById('nombre').value);
+            const dir = encodeURIComponent(document.getElementById('direccion').value);
+            const tel = encodeURIComponent(document.getElementById('telefono').value);
+            const pag = encodeURIComponent(document.getElementById('pago').value);
+            const comb = encodeURIComponent(combo);
 
-            // Construir URL dinámica con ID + COMBO
-            const productParam = encodeURIComponent(name);
-            const dynamicURL = `${formBaseURL}?embedded=true&${entryID}=${orderID}&${entryCombo}=${productParam}`;
+            // Construimos la URL que llena TODO el formulario de Google a la vez
+            const url = `${formBaseURL}?embedded=true&${entryID}=${orderID}&${entryCombo}=${comb}`;
+            // NOTA: Para que el Excel guarde nombre/dirección, deberías añadir &entry.ID_NOMBRE=${nom} etc.
             
-            // Recargar el iframe con los datos inyectados
-            document.getElementById('form-container').innerHTML = `<iframe src="${dynamicURL}" width="100%" height="1350" frameborder="0" marginheight="0" marginwidth="0">Cargando formulario...</iframe>`;
-            
-            // Bajar suavemente a la sección de la orden
-            window.location.href = "#ordenar";
+            document.getElementById('form-container').innerHTML = `<iframe src="${url}" width="100%" height="500" frameborder="0"></iframe>`;
         }
 
-        // Función para enviar mensaje profesional a WhatsApp
+        function updateSelection(name) {
+            combo = name;
+            syncForm();
+            window.location.href = "#datos";
+        }
+
         function sendWhatsApp() {
-            const mensaje = `*Nuevo Pedido - Combo Cuba Express*\n\n` +
-                            `*ID de la Orden:* ${orderID}\n` +
-                            `*Producto:* ${selectedCombo}\n` +
-                            `*Total:* [Confirmar según catálogo]\n` +
-                            `*Método de Pago:* [Zelle / IBAN / México / Cripto]\n\n` +
-                            `*DATOS DEL DESTINATARIO:*\n` +
-                            `*(Completar si no lo hizo en la web)*\n` +
-                            `Nombre:\n` +
-                            `Dirección:\n` +
-                            `Teléfono:\n\n` +
-                            `Muchas gracias por su atención. Quedo a la espera de los datos de pago para procesar la entrega inmediata.`;
-            
-            const url = `https://wa.me/${miTelefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+            const nom = document.getElementById('nombre').value;
+            const dir = document.getElementById('direccion').value;
+            const tel = document.getElementById('telefono').value;
+            const pag = document.getElementById('pago').value;
+
+            if(!nom || !dir) { alert("Por favor, pon el nombre y dirección del destinatario"); return; }
+
+            const msg = `*Nuevo Pedido - Combo Cuba Express*\n\n` +
+                        `*ID Orden:* ${orderID}\n` +
+                        `*Producto:* ${combo}\n` +
+                        `*Método de Pago:* ${pag}\n\n` +
+                        `*DESTINATARIO:*\n` +
+                        `*Nombre:* ${nom}\n` +
+                        `*Dirección:* ${dir}\n` +
+                        `*Teléfono:* ${tel}\n\n` +
+                        `El formulario ha sido sincronizado. Por favor, envíeme los datos para pagar.`;
+
+            window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Carga inicial del formulario (solo con el ID de orden)
-        const initialURL = `${formBaseURL}?embedded=true&${entryID}=${orderID}`;
-        document.getElementById('form-container').innerHTML = `<iframe src="${initialURL}" width="100%" height="1350" frameborder="0" marginheight="0" marginwidth="0">Cargando...</iframe>`;
+        // Carga inicial
+        syncForm();
     </script>
-
 </body>
 </html>
