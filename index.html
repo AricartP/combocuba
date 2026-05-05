@@ -98,12 +98,11 @@
         </div>
     </section>
 
-    <script>
+<script>
         const miTelefono = "17864512020";
         const formID = "1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg";
         let cart = [];
         
-        // Generamos un ID de orden único que cambia cada vez que se recarga la página
         let orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
 
         function showView(viewId) {
@@ -153,7 +152,15 @@
                 return;
             }
 
-            // Enviamos el nombre del primer producto para que el Excel lo clasifique
+            // Cálculo del Total
+            let totalPedido = 0;
+            let detalleProductos = "";
+            cart.forEach(item => {
+                totalPedido += item.price;
+                detalleProductos += `• ${item.name} ($${item.price.toFixed(2)})\n`;
+            });
+
+            // Enviamos el primer producto para el Excel (Categorización)
             const selectedCombo = cart[0].name; 
 
             const sendURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?` +
@@ -164,33 +171,38 @@
                             `entry.922501452=${encodeURIComponent(tel)}&` +
                             `entry.895797247=${encodeURIComponent(pag)}&submit=Submit`;
 
-            // Preparamos el mensaje de WhatsApp con todos los productos
-            const listaProductos = cart.map(i => i.name).join(", ");
-            const msg = `*PEDIDO: ${orderID}*\n📦 *PRODUCTOS:* ${listaProductos}\n👤 *RECIBE:* ${nom}\n📍 *DIR:* ${dir}\n📞 *TEL:* ${tel}\n💳 *PAGO:* ${pag}`;
+            // MENSJE DE WHATSAPP PROFESIONAL
+            const msg = `*🛍️ NUEVO PEDIDO: ${orderID}*\n` +
+                        `------------------------------------------\n` +
+                        `📝 *DETALLE DEL PEDIDO:*\n` +
+                        `${detalleProductos}` +
+                        `------------------------------------------\n` +
+                        `💰 *TOTAL A PAGAR: $${totalPedido.toFixed(2)}*\n` +
+                        `💳 *MÉTODO DE PAGO:* ${pag}\n` +
+                        `------------------------------------------\n` +
+                        `👤 *DATOS DE ENTREGA:*\n` +
+                        `*Nombre:* ${nom}\n` +
+                        `*Dirección:* ${dir}\n` +
+                        `*Teléfono:* ${tel}\n` +
+                        `------------------------------------------\n` +
+                        `_Generado automáticamente por ComboCuba Store_`;
 
             // 1. Envío silencioso al Excel
             fetch(sendURL, { mode: 'no-cors' });
 
-            // 2. Abrir WhatsApp en pestaña nueva
+            // 2. Abrir WhatsApp
             window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
 
-            // 3. LIMPIEZA TOTAL Y REINICIO
+            // 3. LIMPIEZA Y REINICIO
             setTimeout(() => {
-                cart = []; // Vaciar carrito
-                updateUI(); // Poner contador en 0
-                
-                // Limpiar campos de texto
+                cart = []; 
+                updateUI();
                 document.getElementById('nombre').value = "";
                 document.getElementById('direccion').value = "";
                 document.getElementById('telefono').value = "";
-                
-                // Generar un nuevo ID de orden para la siguiente compra
                 orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
-                
-                // Volver a la tienda
                 showView('view-catalogo');
-                
-                alert("✅ Pedido procesado. El carrito se ha reiniciado para una nueva orden.");
+                alert("✅ Pedido enviado correctamente.");
             }, 800);
         }
     </script>
