@@ -3,157 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComboCuba Express | Premium</title>
+    <title>ComboCuba Store | Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .combo-option {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .combo-option.selected {
-            background: #b91c1c;
-            color: white;
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px -5px rgba(185, 28, 28, 0.4);
-        }
-
-        .combo-option.selected i { color: #facc15; }
-
-        .btn-glow {
-            box-shadow: 0 0 20px rgba(22, 163, 74, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-glow:active { transform: scale(0.96); }
-
-        /* Animación suave para la carga */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade { animation: fadeIn 0.5s ease-out forwards; }
+        body { font-family: 'Poppins', sans-serif; background: #f3f4f6; }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-24">
 
-    <!-- Header Estilo App -->
-    <header class="bg-red-700 text-white p-6 rounded-b-[2.5rem] shadow-2xl animate-fade">
-        <div class="container mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-800 tracking-tighter italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
-                <p class="text-[10px] uppercase tracking-[0.2em] font-bold opacity-80">Envíos rápidos a la familia</p>
+    <!-- Navbar con Carrito -->
+    <nav class="bg-red-700 text-white sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg">
+        <div>
+            <h1 class="text-xl font-800 tracking-tighter italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
+        </div>
+        <button onclick="showView('view-carrito')" class="relative p-2 bg-white/20 rounded-full">
+            <i class="fas fa-shopping-basket text-xl"></i>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">0</span>
+        </button>
+    </nav>
+
+    <!-- VISTA 1: CATÁLOGO -->
+    <section id="view-catalogo" class="view active container mx-auto px-5 py-8 max-w-xl">
+        <div class="flex items-center space-x-2 mb-6">
+            <div class="w-2 h-6 bg-red-600 rounded-full"></div>
+            <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Elige tus Productos</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+            <!-- Producto 1 -->
+            <div class="glass-card rounded-[2rem] overflow-hidden shadow-xl border border-white">
+                <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5e?q=80&w=500" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-800 text-lg uppercase text-gray-800">🍖 COMBO CARNE</h3>
+                        <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full">$85.00</span>
+                    </div>
+                    <p class="text-gray-500 text-xs mb-4">5lb Cerdo, 2lb Pollo, 1lb Ahumado y embutidos.</p>
+                    <button onclick="addToCart('COMBO CARNE', 85.00)" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold active:scale-95 transition-all shadow-md">AGREGAR AL PEDIDO</button>
+                </div>
             </div>
-            <div class="text-right">
-                <span id="order-id" class="block text-[10px] font-bold bg-black/20 px-3 py-1 rounded-full border border-white/20 text-yellow-300"></span>
+
+            <!-- Producto 2 -->
+            <div class="glass-card rounded-[2rem] overflow-hidden shadow-xl border border-white">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-800 text-lg uppercase text-gray-800">🧼 COMBO ASEO</h3>
+                        <span class="bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">$45.00</span>
+                    </div>
+                    <p class="text-gray-500 text-xs mb-4">Detergente 1kg, 4 Jabones, Crema dental y Desodorante.</p>
+                    <button onclick="addToCart('COMBO ASEO', 45.00)" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold active:scale-95 transition-all shadow-md">AGREGAR AL PEDIDO</button>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <main class="container mx-auto px-5 py-8 max-w-xl space-y-8">
+    <!-- VISTA 2: CARRITO -->
+    <section id="view-carrito" class="view container mx-auto px-5 py-8 max-w-xl">
+        <button onclick="showView('view-catalogo')" class="text-xs font-bold text-gray-400 mb-6 flex items-center uppercase tracking-widest">
+            <i class="fas fa-arrow-left mr-2"></i> Seguir comprando
+        </button>
+        <h2 class="text-2xl font-800 text-gray-800 mb-6 uppercase italic">Tu Carrito</h2>
         
-        <!-- Sección 1: Selección -->
-        <section class="animate-fade" style="animation-delay: 0.1s;">
-            <div class="flex items-center space-x-2 mb-4">
-                <div class="w-2 h-6 bg-red-600 rounded-full"></div>
-                <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Elige tu Combo Especial</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 gap-4">
-                <div id="btn-CARNE" onclick="selectCombo('COMBO CARNE', 'btn-CARNE')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-red-600">
-                    <div>
-                        <p class="text-xs font-bold text-red-600 uppercase mb-1">Proteína Vital</p>
-                        <h3 class="font-800 text-lg uppercase">🍖 COMBO CARNE</h3>
-                    </div>
-                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
-                </div>
-
-                <div id="btn-ASEO" onclick="selectCombo('COMBO ASEO', 'btn-ASEO')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-blue-500">
-                    <div>
-                        <p class="text-xs font-bold text-blue-500 uppercase mb-1">Hogar y Limpieza</p>
-                        <h3 class="font-800 text-lg uppercase">🧼 COMBO ASEO</h3>
-                    </div>
-                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
-                </div>
-
-                <div id="btn-MIXTO" onclick="selectCombo('COMBO MIXTO', 'btn-MIXTO')" class="combo-option glass-card p-5 rounded-2xl flex justify-between items-center cursor-pointer shadow-sm border-l-4 border-l-purple-600">
-                    <div>
-                        <p class="text-xs font-bold text-purple-600 uppercase mb-1">Lo mejor de ambos</p>
-                        <h3 class="font-800 text-lg uppercase">✨ COMBO MIXTO</h3>
-                    </div>
-                    <i class="fas fa-circle-check text-2xl text-gray-200"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección 2: Datos -->
-        <section class="glass-card p-8 rounded-[2rem] shadow-xl animate-fade" style="animation-delay: 0.2s;">
-            <div class="flex items-center space-x-2 mb-6">
-                <div class="w-2 h-6 bg-green-600 rounded-full"></div>
-                <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Datos de Entrega</h2>
-            </div>
-
-            <div class="space-y-5">
-                <div class="relative group">
-                    <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
-                    <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700">
-                </div>
-
-                <div class="relative group">
-                    <i class="fas fa-location-dot absolute left-4 top-5 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
-                    <textarea id="direccion" placeholder="Dirección exacta en Cuba" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700" rows="3"></textarea>
-                </div>
-
-                <div class="relative group">
-                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-red-500 transition-colors"></i>
-                    <input type="tel" id="telefono" placeholder="Teléfono de contacto" class="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 focus:bg-white transition-all font-semibold text-gray-700">
-                </div>
-                
-                <div class="pt-2">
-                    <label class="text-[10px] font-800 text-gray-400 uppercase ml-2 mb-2 block tracking-widest">Método de Pago Preferido</label>
-                    <div class="relative">
-                        <select id="pago" class="w-full p-4 bg-gray-100 border-none rounded-2xl font-bold text-gray-700 appearance-none outline-none focus:ring-2 focus:ring-red-500 cursor-pointer">
-                            <option value="IBAN EUROPA">🇪🇺 IBAN EUROPA</option>
-                            <option value="ZELLE USA">🇺🇸 ZELLE USA</option>
-                            <option value="BANK TRANSFER MEXICO">🇲🇽 BANK TRANSFER MEXICO</option>
-                            <option value="CRIPTOMONEDA">₿ CRIPTOMONEDA</option>
-                        </select>
-                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Botón de Confirmación -->
-    <footer class="fixed bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-lg border-t border-gray-100 z-50">
-        <div class="max-w-xl mx-auto">
-            <button onclick="finalizarPedido()" class="btn-glow bg-green-600 hover:bg-green-700 text-white w-full py-5 rounded-[1.5rem] font-800 text-lg flex items-center justify-center space-x-3 transition-all">
-                <i class="fab fa-whatsapp text-2xl"></i>
-                <span>CONFIRMAR Y ENVIAR PEDIDO</span>
-            </button>
-            <p class="text-[9px] text-center text-gray-400 mt-4 font-bold uppercase tracking-widest italic">Seguridad y rapidez garantizada en cada envío</p>
+        <div id="cart-items" class="space-y-4 mb-8">
+            <!-- Items Dinámicos -->
         </div>
-    </footer>
+
+        <div class="glass-card p-6 rounded-[2rem] shadow-2xl border-2 border-white">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-400 font-bold text-sm uppercase">Total a pagar:</span>
+                <span id="cart-total" class="text-3xl font-800 text-red-600">$0.00</span>
+            </div>
+            <button onclick="showView('view-checkout')" id="btn-procesar" class="w-full bg-gray-900 text-white py-5 rounded-2xl font-800 shadow-lg text-lg disabled:opacity-50" disabled>COMPLETAR DATOS</button>
+        </div>
+    </section>
+
+    <!-- VISTA 3: CHECKOUT (Lógica de tu código anterior) -->
+    <section id="view-checkout" class="view container mx-auto px-5 py-8 max-w-xl">
+        <button onclick="showView('view-carrito')" class="text-xs font-bold text-gray-400 mb-6 flex items-center uppercase tracking-widest">
+            <i class="fas fa-arrow-left mr-2"></i> Revisar productos
+        </button>
+        
+        <div class="glass-card p-8 rounded-[2rem] shadow-2xl space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="font-800 text-gray-800 uppercase text-sm">Datos de Entrega</h2>
+                <span id="order-id-display" class="text-[10px] font-bold bg-red-100 text-red-600 px-3 py-1 rounded-full uppercase"></span>
+            </div>
+
+            <div class="space-y-4">
+                <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700">
+                <textarea id="direccion" placeholder="Dirección exacta en Cuba" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700" rows="3"></textarea>
+                <input type="tel" id="telefono" placeholder="Teléfono de contacto" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700">
+                
+                <div>
+                    <label class="text-[10px] font-800 text-gray-400 uppercase ml-2 mb-2 block tracking-widest">Método de Pago</label>
+                    <select id="pago" class="w-full p-4 bg-gray-100 border-none rounded-2xl font-bold text-gray-700 outline-none focus:ring-2 focus:ring-red-500 cursor-pointer">
+                        <option value="IBAN EUROPA">🇪🇺 IBAN EUROPA</option>
+                        <option value="ZELLE USA">🇺🇸 ZELLE USA</option>
+                        <option value="BANK TRANSFER MEXICO">🇲🇽 BANK TRANSFER MEXICO</option>
+                        <option value="CRIPTOMONEDA">₿ CRIPTOMONEDA</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="finalizarPedido()" class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-[1.5rem] font-800 text-lg flex items-center justify-center space-x-3 transition-all shadow-xl">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <span>ENVIAR ORDEN POR WHATSAPP</span>
+            </button>
+        </div>
+    </section>
 
     <script>
-        // LÓGICA INTACTA (No se toca lo que ya funciona)
+        // CONFIGURACIÓN (Tu lógica original fusionada)
         const miTelefono = "17864512020";
         const formID = "1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg";
-        
         const entries = {
             idOrden: "entry.905253419",
             combo: "entry.1180910425",
@@ -163,19 +132,50 @@
             pago: "entry.895797247"
         };
 
-        let selectedCombo = "";
+        let cart = [];
         const orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('order-id').innerText = "ORDEN #" + orderID;
+        document.getElementById('order-id-display').innerText = "ID: " + orderID;
 
-        function selectCombo(nombre, id) {
-            selectedCombo = nombre;
-            document.querySelectorAll('.combo-option').forEach(c => {
-                c.classList.remove('selected');
-                c.querySelector('i').className = "fas fa-circle-check text-2xl text-gray-200";
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const btnProcesar = document.getElementById('btn-procesar');
+            
+            container.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="glass-card p-4 rounded-2xl flex justify-between items-center shadow-sm border border-white">
+                        <div>
+                            <h4 class="font-800 text-sm uppercase text-gray-800">${item.name}</h4>
+                            <p class="text-red-600 font-bold">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-gray-300 hover:text-red-500 transition-colors"><i class="fas fa-trash-can"></i></button>
+                    </div>
+                `;
             });
-            const active = document.getElementById(id);
-            active.classList.add('selected');
-            active.querySelector('i').className = "fas fa-circle-check text-2xl text-yellow-400";
+
+            totalEl.innerText = `$${total.toFixed(2)}`;
+            btnProcesar.disabled = cart.length === 0;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateUI();
         }
 
         function finalizarPedido() {
@@ -184,14 +184,20 @@
             const tel = document.getElementById('telefono').value;
             const pag = document.getElementById('pago').value;
 
-            if (!selectedCombo || !nom || !dir || !tel) {
-                alert("⚠️ Por favor, rellena todos los campos.");
+            if (cart.length === 0 || !nom || !dir || !tel) {
+                alert("⚠️ Por favor, rellena todos los datos de entrega.");
                 return;
             }
 
+            // Unimos los nombres de los combos elegidos en un solo texto para el Excel
+            const listaProductos = cart.map(item => item.name).join(", ");
+            const totalTexto = document.getElementById('cart-total').innerText;
+            const comboParaExcel = `${listaProductos} (Total: ${totalTexto})`;
+
+            // CONSTRUCCIÓN DE LA URL (Usando tus entries verificados)
             const sendURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?` +
                             `${entries.idOrden}=${encodeURIComponent(orderID)}&` +
-                            `${entries.combo}=${encodeURIComponent(selectedCombo)}&` +
+                            `${entries.combo}=${encodeURIComponent(comboParaExcel)}&` +
                             `${entries.nombre}=${encodeURIComponent(nom)}&` +
                             `${entries.direccion}=${encodeURIComponent(dir)}&` +
                             `${entries.telefono}=${encodeURIComponent(tel)}&` +
@@ -199,18 +205,20 @@
 
             const msg = `*NUEVO PEDIDO: ${orderID}*\n` +
                         `----------------------------\n` +
-                        `📦 *PRODUCTO:* ${selectedCombo}\n` +
+                        `📦 *PRODUCTOS:* ${listaProductos}\n` +
+                        `💰 *TOTAL:* ${totalTexto}\n` +
                         `💳 *PAGO:* ${pag}\n` +
                         `----------------------------\n` +
                         `👤 *RECIBE:* ${nom}\n` +
                         `📍 *DIRECCIÓN:* ${dir}\n` +
                         `📞 *TEL:* ${tel}\n` +
                         `----------------------------\n` +
-                        `_Generado automáticamente por ComboCuba Express_`;
+                        `_Generado por ComboCuba Store_`;
 
-            // Ejecución del envío silencioso
+            // Envío silencioso al Excel
             fetch(sendURL, { mode: 'no-cors' });
 
+            // Abrir WhatsApp
             setTimeout(() => {
                 window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
             }, 300);
