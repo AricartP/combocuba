@@ -17,11 +17,9 @@
 </head>
 <body class="pb-24">
 
-    <!-- Navbar con Carrito -->
+    <!-- Navbar -->
     <nav class="bg-red-700 text-white sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg">
-        <div>
-            <h1 class="text-xl font-800 tracking-tighter italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
-        </div>
+        <h1 class="text-xl font-800 tracking-tighter italic">COMBOCUBA <span class="text-yellow-400">EXPRESS</span></h1>
         <button onclick="showView('view-carrito')" class="relative p-2 bg-white/20 rounded-full">
             <i class="fas fa-shopping-basket text-xl"></i>
             <span id="cart-count" class="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">0</span>
@@ -30,22 +28,14 @@
 
     <!-- VISTA 1: CATÁLOGO -->
     <section id="view-catalogo" class="view active container mx-auto px-5 py-8 max-w-xl">
-        <div class="flex items-center space-x-2 mb-6">
-            <div class="w-2 h-6 bg-red-600 rounded-full"></div>
-            <h2 class="font-800 text-gray-800 uppercase text-sm tracking-tight">Elige tus Productos</h2>
-        </div>
-
         <div class="grid grid-cols-1 gap-6">
             <!-- Producto 1 -->
             <div class="glass-card rounded-[2rem] overflow-hidden shadow-xl border border-white">
                 <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5e?q=80&w=500" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-800 text-lg uppercase text-gray-800">🍖 COMBO CARNE</h3>
-                        <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full">$85.00</span>
-                    </div>
-                    <p class="text-gray-500 text-xs mb-4">5lb Cerdo, 2lb Pollo, 1lb Ahumado y embutidos.</p>
-                    <button onclick="addToCart('COMBO CARNE', 85.00)" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold active:scale-95 transition-all shadow-md">AGREGAR AL PEDIDO</button>
+                    <h3 class="font-800 text-lg uppercase text-gray-800">🍖 COMBO CARNE</h3>
+                    <p class="text-red-600 font-bold mb-4">$85.00</p>
+                    <button onclick="addToCart('COMBO CARNE', 85.00)" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold shadow-md">AGREGAR</button>
                 </div>
             </div>
 
@@ -53,12 +43,19 @@
             <div class="glass-card rounded-[2rem] overflow-hidden shadow-xl border border-white">
                 <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-800 text-lg uppercase text-gray-800">🧼 COMBO ASEO</h3>
-                        <span class="bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">$45.00</span>
-                    </div>
-                    <p class="text-gray-500 text-xs mb-4">Detergente 1kg, 4 Jabones, Crema dental y Desodorante.</p>
-                    <button onclick="addToCart('COMBO ASEO', 45.00)" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold active:scale-95 transition-all shadow-md">AGREGAR AL PEDIDO</button>
+                    <h3 class="font-800 text-lg uppercase text-gray-800">🧼 COMBO ASEO</h3>
+                    <p class="text-blue-600 font-bold mb-4">$45.00</p>
+                    <button onclick="addToCart('COMBO ASEO', 45.00)" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-md">AGREGAR</button>
+                </div>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="glass-card rounded-[2rem] overflow-hidden shadow-xl border border-white">
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=500" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="font-800 text-lg uppercase text-gray-800">✨ COMBO MIXTO</h3>
+                    <p class="text-purple-600 font-bold mb-4">$120.00</p>
+                    <button onclick="addToCart('COMBO MIXTO', 120.00)" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold shadow-md">AGREGAR</button>
                 </div>
             </div>
         </div>
@@ -66,75 +63,46 @@
 
     <!-- VISTA 2: CARRITO -->
     <section id="view-carrito" class="view container mx-auto px-5 py-8 max-w-xl">
-        <button onclick="showView('view-catalogo')" class="text-xs font-bold text-gray-400 mb-6 flex items-center uppercase tracking-widest">
+        <button onclick="showView('view-catalogo')" class="text-xs font-bold text-gray-400 mb-6 uppercase tracking-widest flex items-center">
             <i class="fas fa-arrow-left mr-2"></i> Seguir comprando
         </button>
-        <h2 class="text-2xl font-800 text-gray-800 mb-6 uppercase italic">Tu Carrito</h2>
-        
-        <div id="cart-items" class="space-y-4 mb-8">
-            <!-- Items Dinámicos -->
-        </div>
-
-        <div class="glass-card p-6 rounded-[2rem] shadow-2xl border-2 border-white">
+        <div id="cart-items" class="space-y-4 mb-8"></div>
+        <div class="glass-card p-6 rounded-[2rem] shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <span class="text-gray-400 font-bold text-sm uppercase">Total a pagar:</span>
+                <span class="text-gray-400 font-bold text-sm uppercase">Total:</span>
                 <span id="cart-total" class="text-3xl font-800 text-red-600">$0.00</span>
             </div>
-            <button onclick="showView('view-checkout')" id="btn-procesar" class="w-full bg-gray-900 text-white py-5 rounded-2xl font-800 shadow-lg text-lg disabled:opacity-50" disabled>COMPLETAR DATOS</button>
+            <button onclick="showView('view-checkout')" id="btn-procesar" class="w-full bg-gray-900 text-white py-5 rounded-2xl font-800 disabled:opacity-50" disabled>IR A PAGAR</button>
         </div>
     </section>
 
-    <!-- VISTA 3: CHECKOUT (Lógica de tu código anterior) -->
+    <!-- VISTA 3: CHECKOUT -->
     <section id="view-checkout" class="view container mx-auto px-5 py-8 max-w-xl">
-        <button onclick="showView('view-carrito')" class="text-xs font-bold text-gray-400 mb-6 flex items-center uppercase tracking-widest">
-            <i class="fas fa-arrow-left mr-2"></i> Revisar productos
-        </button>
-        
         <div class="glass-card p-8 rounded-[2rem] shadow-2xl space-y-6">
-            <div class="flex justify-between items-center">
-                <h2 class="font-800 text-gray-800 uppercase text-sm">Datos de Entrega</h2>
-                <span id="order-id-display" class="text-[10px] font-bold bg-red-100 text-red-600 px-3 py-1 rounded-full uppercase"></span>
-            </div>
+            <h2 class="font-800 text-gray-800 uppercase text-sm">Datos de Entrega</h2>
+            <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none focus:border-red-500 font-semibold">
+            <textarea id="direccion" placeholder="Dirección exacta en Cuba" class="w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none focus:border-red-500 font-semibold" rows="3"></textarea>
+            <input type="tel" id="telefono" placeholder="Teléfono" class="w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none focus:border-red-500 font-semibold">
+            
+            <select id="pago" class="w-full p-4 bg-gray-100 rounded-2xl font-bold">
+                <option value="IBAN EUROPA">🇪🇺 IBAN EUROPA</option>
+                <option value="ZELLE USA">🇺🇸 ZELLE USA</option>
+                <option value="BANK TRANSFER MEXICO">🇲🇽 BANK TRANSFER MEXICO</option>
+                <option value="CRIPTOMONEDA">₿ CRIPTOMONEDA</option>
+            </select>
 
-            <div class="space-y-4">
-                <input type="text" id="nombre" placeholder="Nombre de quien recibe" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700">
-                <textarea id="direccion" placeholder="Dirección exacta en Cuba" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700" rows="3"></textarea>
-                <input type="tel" id="telefono" placeholder="Teléfono de contacto" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-red-500 font-semibold text-gray-700">
-                
-                <div>
-                    <label class="text-[10px] font-800 text-gray-400 uppercase ml-2 mb-2 block tracking-widest">Método de Pago</label>
-                    <select id="pago" class="w-full p-4 bg-gray-100 border-none rounded-2xl font-bold text-gray-700 outline-none focus:ring-2 focus:ring-red-500 cursor-pointer">
-                        <option value="IBAN EUROPA">🇪🇺 IBAN EUROPA</option>
-                        <option value="ZELLE USA">🇺🇸 ZELLE USA</option>
-                        <option value="BANK TRANSFER MEXICO">🇲🇽 BANK TRANSFER MEXICO</option>
-                        <option value="CRIPTOMONEDA">₿ CRIPTOMONEDA</option>
-                    </select>
-                </div>
-            </div>
-
-            <button onclick="finalizarPedido()" class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-[1.5rem] font-800 text-lg flex items-center justify-center space-x-3 transition-all shadow-xl">
+            <button onclick="finalizarPedido()" class="w-full bg-green-600 text-white py-5 rounded-[1.5rem] font-800 text-lg flex items-center justify-center space-x-3 shadow-xl">
                 <i class="fab fa-whatsapp text-2xl"></i>
-                <span>ENVIAR ORDEN POR WHATSAPP</span>
+                <span>FINALIZAR PEDIDO</span>
             </button>
         </div>
     </section>
 
     <script>
-        // CONFIGURACIÓN (Tu lógica original fusionada)
         const miTelefono = "17864512020";
         const formID = "1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg";
-        const entries = {
-            idOrden: "entry.905253419",
-            combo: "entry.1180910425",
-            nombre: "entry.1029821607",
-            direccion: "entry.2133758458",
-            telefono: "entry.922501452",
-            pago: "entry.895797247"
-        };
-
         let cart = [];
         const orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('order-id-display').innerText = "ID: " + orderID;
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -150,27 +118,17 @@
         function updateUI() {
             document.getElementById('cart-count').innerText = cart.length;
             const container = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
-            const btnProcesar = document.getElementById('btn-procesar');
-            
             container.innerHTML = "";
             let total = 0;
-
             cart.forEach((item, index) => {
                 total += item.price;
-                container.innerHTML += `
-                    <div class="glass-card p-4 rounded-2xl flex justify-between items-center shadow-sm border border-white">
-                        <div>
-                            <h4 class="font-800 text-sm uppercase text-gray-800">${item.name}</h4>
-                            <p class="text-red-600 font-bold">$${item.price.toFixed(2)}</p>
-                        </div>
-                        <button onclick="removeFromCart(${index})" class="text-gray-300 hover:text-red-500 transition-colors"><i class="fas fa-trash-can"></i></button>
-                    </div>
-                `;
+                container.innerHTML += `<div class="glass-card p-4 rounded-2xl flex justify-between items-center">
+                    <div><h4 class="font-800 text-sm uppercase">${item.name}</h4><p class="text-red-600 font-bold">$${item.price.toFixed(2)}</p></div>
+                    <button onclick="removeFromCart(${index})" class="text-gray-300"><i class="fas fa-trash"></i></button>
+                </div>`;
             });
-
-            totalEl.innerText = `$${total.toFixed(2)}`;
-            btnProcesar.disabled = cart.length === 0;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('btn-procesar').disabled = cart.length === 0;
         }
 
         function removeFromCart(index) {
@@ -185,43 +143,26 @@
             const pag = document.getElementById('pago').value;
 
             if (cart.length === 0 || !nom || !dir || !tel) {
-                alert("⚠️ Por favor, rellena todos los datos de entrega.");
+                alert("⚠️ Completa todos los datos.");
                 return;
             }
 
-            // Unimos los nombres de los combos elegidos en un solo texto para el Excel
-            const listaProductos = cart.map(item => item.name).join(", ");
-            const totalTexto = document.getElementById('cart-total').innerText;
-            const comboParaExcel = `${listaProductos} (Total: ${totalTexto})`;
+            // IMPORTANTE: Esto debe ser exactamente una de las opciones del Formulario
+            // Si el formulario solo acepta una opción, tomamos la primera del carrito.
+            const selectedCombo = cart[0].name; 
 
-            // CONSTRUCCIÓN DE LA URL (Usando tus entries verificados)
             const sendURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?` +
-                            `${entries.idOrden}=${encodeURIComponent(orderID)}&` +
-                            `${entries.combo}=${encodeURIComponent(comboParaExcel)}&` +
-                            `${entries.nombre}=${encodeURIComponent(nom)}&` +
-                            `${entries.direccion}=${encodeURIComponent(dir)}&` +
-                            `${entries.telefono}=${encodeURIComponent(tel)}&` +
-                            `${entries.pago}=${encodeURIComponent(pag)}&submit=Submit`;
+                            `entry.905253419=${encodeURIComponent(orderID)}&` +
+                            `entry.1180910425=${encodeURIComponent(selectedCombo)}&` +
+                            `entry.1029821607=${encodeURIComponent(nom)}&` +
+                            `entry.2133758458=${encodeURIComponent(dir)}&` +
+                            `entry.922501452=${encodeURIComponent(tel)}&` +
+                            `entry.895797247=${encodeURIComponent(pag)}&submit=Submit`;
 
-            const msg = `*NUEVO PEDIDO: ${orderID}*\n` +
-                        `----------------------------\n` +
-                        `📦 *PRODUCTOS:* ${listaProductos}\n` +
-                        `💰 *TOTAL:* ${totalTexto}\n` +
-                        `💳 *PAGO:* ${pag}\n` +
-                        `----------------------------\n` +
-                        `👤 *RECIBE:* ${nom}\n` +
-                        `📍 *DIRECCIÓN:* ${dir}\n` +
-                        `📞 *TEL:* ${tel}\n` +
-                        `----------------------------\n` +
-                        `_Generado por ComboCuba Store_`;
+            const msg = `*PEDIDO: ${orderID}*\n📦 *COMBO:* ${cart.map(i=>i.name).join(", ")}\n👤 *RECIBE:* ${nom}\n📍 *DIR:* ${dir}\n📞 *TEL:* ${tel}\n💳 *PAGO:* ${pag}`;
 
-            // Envío silencioso al Excel
             fetch(sendURL, { mode: 'no-cors' });
-
-            // Abrir WhatsApp
-            setTimeout(() => {
-                window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
-            }, 300);
+            setTimeout(() => { window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank'); }, 300);
         }
     </script>
 </body>
