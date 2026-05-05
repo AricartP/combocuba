@@ -102,7 +102,9 @@
         const miTelefono = "17864512020";
         const formID = "1FAIpQLSejwtF0br6aTdtFTbJqMeB3puPB7Zab3JJeeNpqxrbxg4x2kg";
         let cart = [];
-        const orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
+        
+        // Generamos un ID de orden único que cambia cada vez que se recarga la página
+        let orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -122,10 +124,14 @@
             let total = 0;
             cart.forEach((item, index) => {
                 total += item.price;
-                container.innerHTML += `<div class="glass-card p-4 rounded-2xl flex justify-between items-center">
-                    <div><h4 class="font-800 text-sm uppercase">${item.name}</h4><p class="text-red-600 font-bold">$${item.price.toFixed(2)}</p></div>
-                    <button onclick="removeFromCart(${index})" class="text-gray-300"><i class="fas fa-trash"></i></button>
-                </div>`;
+                container.innerHTML += `
+                    <div class="glass-card p-4 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <h4 class="font-800 text-sm uppercase">${item.name}</h4>
+                            <p class="text-red-600 font-bold">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-gray-300"><i class="fas fa-trash"></i></button>
+                    </div>`;
             });
             document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
             document.getElementById('btn-procesar').disabled = cart.length === 0;
@@ -143,12 +149,11 @@
             const pag = document.getElementById('pago').value;
 
             if (cart.length === 0 || !nom || !dir || !tel) {
-                alert("⚠️ Completa todos los datos.");
+                alert("⚠️ Por favor, completa todos los datos de entrega.");
                 return;
             }
 
-            // IMPORTANTE: Esto debe ser exactamente una de las opciones del Formulario
-            // Si el formulario solo acepta una opción, tomamos la primera del carrito.
+            // Enviamos el nombre del primer producto para que el Excel lo clasifique
             const selectedCombo = cart[0].name; 
 
             const sendURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?` +
@@ -159,11 +164,33 @@
                             `entry.922501452=${encodeURIComponent(tel)}&` +
                             `entry.895797247=${encodeURIComponent(pag)}&submit=Submit`;
 
-            const msg = `*PEDIDO: ${orderID}*\n📦 *COMBO:* ${cart.map(i=>i.name).join(", ")}\n👤 *RECIBE:* ${nom}\n📍 *DIR:* ${dir}\n📞 *TEL:* ${tel}\n💳 *PAGO:* ${pag}`;
+            // Preparamos el mensaje de WhatsApp con todos los productos
+            const listaProductos = cart.map(i => i.name).join(", ");
+            const msg = `*PEDIDO: ${orderID}*\n📦 *PRODUCTOS:* ${listaProductos}\n👤 *RECIBE:* ${nom}\n📍 *DIR:* ${dir}\n📞 *TEL:* ${tel}\n💳 *PAGO:* ${pag}`;
 
+            // 1. Envío silencioso al Excel
             fetch(sendURL, { mode: 'no-cors' });
-            setTimeout(() => { window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank'); }, 300);
+
+            // 2. Abrir WhatsApp en pestaña nueva
+            window.open(`https://wa.me/${miTelefono}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            // 3. LIMPIEZA TOTAL Y REINICIO
+            setTimeout(() => {
+                cart = []; // Vaciar carrito
+                updateUI(); // Poner contador en 0
+                
+                // Limpiar campos de texto
+                document.getElementById('nombre').value = "";
+                document.getElementById('direccion').value = "";
+                document.getElementById('telefono').value = "";
+                
+                // Generar un nuevo ID de orden para la siguiente compra
+                orderID = "CC-" + Math.floor(1000 + Math.random() * 9000);
+                
+                // Volver a la tienda
+                showView('view-catalogo');
+                
+                alert("✅ Pedido procesado. El carrito se ha reiniciado para una nueva orden.");
+            }, 800);
         }
     </script>
-</body>
-</html>
